@@ -130,6 +130,8 @@ public class LdapServer
 
     protected List<String> additionalSchemas;
 
+    private boolean ssl = false;
+
     public File getWorkingDirectory()
     {
         if ( temporayWorkDir == null )
@@ -450,6 +452,7 @@ public class LdapServer
         ldapService.setSocketAcceptor( socketAcceptor );
         ldapService.setDirectoryService( directoryService );
         ldapService.setIpPort( this.port );
+        ldapService.setEnableLdaps( ssl );
 
         setupSaslMechanisms( ldapService );
 
