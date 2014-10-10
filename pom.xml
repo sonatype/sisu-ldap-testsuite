@@ -56,7 +56,7 @@
     <dependency>
       <groupId>org.apache.directory.server</groupId>
       <artifactId>apacheds-server-unit</artifactId>
-      <version>1.5.4</version>
+      <version>1.5.5</version>
     </dependency>
 
     <dependency>
