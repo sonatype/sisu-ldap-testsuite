@@ -43,7 +43,6 @@ import org.apache.directory.server.core.jndi.CoreContextFactory;
 import org.apache.directory.server.core.partition.impl.btree.jdbm.JdbmIndex;
 import org.apache.directory.server.core.partition.impl.btree.jdbm.JdbmPartition;
 import org.apache.directory.server.core.schema.PartitionSchemaLoader;
-import org.apache.directory.server.ldap.LdapService;
 import org.apache.directory.server.ldap.handlers.bind.MechanismHandler;
 import org.apache.directory.server.ldap.handlers.bind.cramMD5.CramMd5MechanismHandler;
 import org.apache.directory.server.ldap.handlers.bind.digestMD5.DigestMd5MechanismHandler;
@@ -52,7 +51,7 @@ import org.apache.directory.server.ldap.handlers.bind.ntlm.NtlmMechanismHandler;
 import org.apache.directory.server.ldap.handlers.bind.plain.PlainMechanismHandler;
 import org.apache.directory.server.ldap.handlers.extended.StartTlsHandler;
 import org.apache.directory.server.ldap.handlers.extended.StoredProcedureExtendedOperationHandler;
-import org.apache.directory.server.protocol.shared.SocketAcceptor;
+import org.apache.directory.server.protocol.shared.transport.TcpTransport;
 import org.apache.directory.server.schema.bootstrap.Schema;
 import org.apache.directory.server.schema.registries.DefaultRegistries;
 import org.apache.directory.server.xdbm.Index;
@@ -124,9 +123,7 @@ public class LdapServer
 
     protected DirectoryService directoryService;
 
-    protected SocketAcceptor socketAcceptor;
-
-    protected LdapService ldapService;
+    protected org.apache.directory.server.ldap.LdapServer ldapService;
 
     protected List<String> additionalSchemas;
 
@@ -268,7 +265,7 @@ public class LdapServer
         return new InitialLdapContext( env, null );
     }
 
-    private void setupSaslMechanisms( LdapService server )
+    private void setupSaslMechanisms( org.apache.directory.server.ldap.LdapServer server )
     {
 
         // only do this if sasl is configured in this bean
@@ -447,12 +444,11 @@ public class LdapServer
 
         directoryService = new DefaultDirectoryService();
         directoryService.setShutdownHookEnabled( false );
-        socketAcceptor = new SocketAcceptor( null );
-        ldapService = new LdapService();
-        ldapService.setSocketAcceptor( socketAcceptor );
+        ldapService = new org.apache.directory.server.ldap.LdapServer();
+        TcpTransport tcp = new TcpTransport(this.port);
+        tcp.enableSSL(ssl);
+        ldapService.setTransports(tcp);
         ldapService.setDirectoryService( directoryService );
-        ldapService.setIpPort( this.port );
-        ldapService.setEnableLdaps( ssl );
 
         setupSaslMechanisms( ldapService );
 
@@ -603,8 +599,6 @@ public class LdapServer
         }
         finally
         {
-            ldapService.getSocketAcceptor().unbindAll();
-
             try
             {
                 sysRoot = null;
