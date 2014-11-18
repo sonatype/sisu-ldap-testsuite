@@ -23,7 +23,7 @@
 
   <groupId>org.sonatype.plexus</groupId>
   <artifactId>plexus-ldap-testsuite</artifactId>
-  <version>1.5.1</version>
+  <version>1.5.2-SNAPSHOT</version>
 
   <scm>
     <url>https://github.com/sonatype/sisu-ldap-testsuite</url>
