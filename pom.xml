@@ -1,15 +1,15 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
   <modelVersion>4.0.0</modelVersion>
+
   <parent>
-    <groupId>org.sonatype.spice</groupId>
-    <artifactId>spice-parent</artifactId>
-    <version>20</version>
+    <groupId>org.sonatype.buildsupport</groupId>
+    <artifactId>public-parent</artifactId>
+    <version>7</version>
   </parent>
 
   <groupId>org.sonatype.plexus</groupId>
   <artifactId>plexus-ldap-testsuite</artifactId>
   <version>1.5.1-SNAPSHOT</version>
-  <name>Plexus LDAP Testsuite</name>
 
   <scm>
     <url>https://github.com/sonatype/sisu-ldap-testsuite</url>
